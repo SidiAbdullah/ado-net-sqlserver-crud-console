@@ -23,13 +23,13 @@ class ADO_ManageDataFromConsoleToDB
         command.Parameters.AddWithValue("@Address", contact.Address);
         command.Parameters.AddWithValue("@CountryID", contact.CountryID);
     }
-    static void AddContactToDataBase(stContact newContact, bool GetScope_Identity = false)
+    static void AddContactToDB(stContact newContact, bool GetScope_Identity = false)
     {
         if (GetScope_Identity == false)
         {
             try
             {
-                SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
+                SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
                 connection.Open();
                 string query = @"insert into contacts (FirstName, LastName, Email, Phone, Address, CountryID) values 
                                 (@FirstName, @LastName, @Email, @Phone, @Address, @CountryID)";
@@ -67,6 +67,28 @@ class ADO_ManageDataFromConsoleToDB
             }
         }
     }
+    static void UpdateContactInDB_ByID(int ContactID, stContact newContact)
+    {
+        try
+        {
+            SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
+            connection.Open();
+            string query = @"update contacts set FirstName = @FirstName, LastName = @LastName
+                            , Email = @Email, Phone = @Phone, Address = @Address, CountryID = @CountryID
+                            where ContactID = @ContactID";
+            SqlCommand command = new SqlCommand(query, connection);
+            AddContactParameters(command, newContact);
+            command.Parameters.AddWithValue("@ContactID", ContactID);
+            int rowsEffected = command.ExecuteNonQuery();
+            Console.WriteLine($"{rowsEffected} rows(s) Updated succesfully");
+            connection.Close();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error is: " + e.Message);
+        }
+    }
+
     static void Main()
     {
         stContact newContact = new stContact
@@ -78,6 +100,7 @@ class ADO_ManageDataFromConsoleToDB
             Address = "Address",
             CountryID = 1,
         };
-        AddContactToDataBase(newContact, true);
+        //AddContactToDB(newContact, true);
+        UpdateContactInDB_ByID(7, newContact);
     }
 }
