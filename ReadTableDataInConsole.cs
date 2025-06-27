@@ -6,7 +6,7 @@ class ADO_ManageDataFromDB_ToConsole
 {
     static void PrintAllContacts()
     {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
         connection.Open();
         SqlCommand command = new SqlCommand("select * from contacts", connection);
 
