@@ -2,7 +2,7 @@ using System;
 using System.Data.SqlClient;
 
 
-class ADO_Program_Insert
+class ADO_ManageDataFromConsoleToDB
 {
     struct stContact
     {
@@ -14,28 +14,57 @@ class ADO_Program_Insert
         public string Address { set; get; }
         public int CountryID { set; get; }
     }
-    static void AddNewContact(stContact newContact)
+    static void AddContactParameters(SqlCommand command, stContact contact)
     {
-        try
+        command.Parameters.AddWithValue("@FirstName", contact.FirstName);
+        command.Parameters.AddWithValue("@LastName", contact.LastName);
+        command.Parameters.AddWithValue("@Email", contact.Email);
+        command.Parameters.AddWithValue("@Phone", contact.Phone);
+        command.Parameters.AddWithValue("@Address", contact.Address);
+        command.Parameters.AddWithValue("@CountryID", contact.CountryID);
+    }
+    static void AddContactToDataBase(stContact newContact, bool GetScope_Identity = false)
+    {
+        if (GetScope_Identity == false)
         {
-            SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
-            connection.Open();
-            string query = "insert into contacts (FirstName, LastName, Email, Phone, Address, CountryID) " +
-                "values (@FirstName, @LastName, @Email, @Phone, @Address, @CountryID)";
-            SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@FirstName", newContact.FirstName);
-            command.Parameters.AddWithValue("@LastName", newContact.LastName);
-            command.Parameters.AddWithValue("@Email", newContact.Email);
-            command.Parameters.AddWithValue("@Phone", newContact.Phone);
-            command.Parameters.AddWithValue("@Address", newContact.Address);
-            command.Parameters.AddWithValue("@CountryID", newContact.CountryID);
-            int rowsEffected = command.ExecuteNonQuery();
-            Console.WriteLine(rowsEffected > 0 ? $"{rowsEffected} row(s) inserted successfully." : "No rows were inserted.");
-            connection.Close();
+            try
+            {
+                SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
+                connection.Open();
+                string query = @"insert into contacts (FirstName, LastName, Email, Phone, Address, CountryID) values 
+                                (@FirstName, @LastName, @Email, @Phone, @Address, @CountryID)";
+                SqlCommand command = new SqlCommand(query, connection);
+                AddContactParameters(command, newContact);
+                int rowsEffected = command.ExecuteNonQuery();
+                Console.WriteLine($"{rowsEffected} rows(s) inserted succesfully");
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error is: " + e.Message);
+            }
+
         }
-        catch (Exception e)
+        else
         {
-            Console.WriteLine("Error is: " + e.Message);
+            try
+            {
+                SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
+                connection.Open();
+                string query = @"insert into contacts (FirstName, LastName, Email, Phone, Address, CountryID) values 
+                                (@FirstName, @LastName, @Email, @Phone, @Address, @CountryID);
+                                select Scope_Identity()";
+                SqlCommand command = new SqlCommand(query, connection);
+                AddContactParameters(command, newContact);
+                object Scope_Identity = command.ExecuteScalar();
+                Console.WriteLine("1 row inserted succusfully");
+                Console.WriteLine("Scope Identity is: " + Scope_Identity.ToString());
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error is: " + e.Message);
+            }
         }
     }
     static void Main()
@@ -45,10 +74,10 @@ class ADO_Program_Insert
             FirstName = "FirstName",
             LastName = "LastName",
             Email = "Email@gmail.com",
-            Phone = "+Phone",
+            Phone = "Phone",
             Address = "Address",
             CountryID = 1,
         };
-        AddNewContact(newContact);
+        AddContactToDataBase(newContact, true);
     }
 }
