@@ -2,12 +2,11 @@ using System;
 using System.Data.SqlClient;
 
 
-class ADO_Program_Read
+class ADO_ManageDataFromDB_ToConsole
 {
-    // PrintAllContacts()
     static void PrintAllContacts()
     {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = Anypass");
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
         SqlCommand command = new SqlCommand("select * from contacts", connection);
 
@@ -41,10 +40,9 @@ class ADO_Program_Read
             Console.WriteLine("Error : " + e.Message);
         }
     }
-    // PrintAllContactsWithFirstName(string FirstName)
-    static void PrintAllContactsWithFirstName(string FirstName)
+    static void PrintAllContactsByFirstName(string FirstName)
     {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = Anypass");
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
         SqlCommand command = new SqlCommand("Select * from Contacts where FirstName = @FirstName", connection);
         command.Parameters.AddWithValue("@FirstName", FirstName);
@@ -79,10 +77,9 @@ class ADO_Program_Read
             Console.WriteLine("Error : " + e.Message);
         }
     }
-    // PrintAllContactsWithFirstNameAndCountry(string FirstName, int CountryID)
-    static void PrintAllContactsWithFirstNameAndCountry(string FirstName, int CountryID)
+    static void PrintAllContactsByFirstNameAndCountry(string FirstName, int CountryID)
     {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = Anypass");
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
         SqlCommand command = new SqlCommand("select * from contacts where FirstName = @FirstName and CountryID = @CountryID", connection);
         command.Parameters.AddWithValue("@FirstName", FirstName);
@@ -118,10 +115,9 @@ class ADO_Program_Read
             Console.WriteLine("Error : " + e.Message);
         }
     }
-    // PrintAllContactsWithFirstName(string FirstName) with "like"
     static void PrintAllContactsStartsWith(string likePattern)
     {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = Anypass");
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
         SqlCommand command = new SqlCommand("select * from contacts where firstName like @likePattern", connection);
         command.Parameters.AddWithValue("@likePattern", likePattern);
@@ -155,10 +151,9 @@ class ADO_Program_Read
             Console.WriteLine("Error : " + e.Message);
         }
     }
-    // GetFirstNameByContactID(int ContactID)
     static void GetFirstNameByContactID(int ContactID)
     {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = Anypass");
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
         SqlCommand command = new SqlCommand("select FirstName from contacts where ContactID = @ContactID", connection);
         command.Parameters.AddWithValue("@ContactID", ContactID);
@@ -178,10 +173,9 @@ class ADO_Program_Read
         }
         connection.Close();
     }
-    // GetContactInfosByContactID(int ContactID)
     static void GetContactInfosByContactID(int ContactID)
     {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = Anypass");
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
         SqlCommand command = new SqlCommand("select * from contacts where ContactID = @ContactID", connection);
         command.Parameters.AddWithValue("@ContactID", ContactID);
@@ -220,8 +214,8 @@ class ADO_Program_Read
     //static void Main()
     //{
     //    //PrintAllContacts();
-    //    //PrintAllContactsWithFirstName("Name");
-    //    //PrintAllContactsWithFirstNameAndCountry("Name", 4);
+    //    //PrintAllContactsWithFirstName("name");
+    //    //PrintAllContactsWithFirstNameAndCountry("name", 4);
     //    //PrintAllContactsStartsWith("%i");
     //    //GetFirstNameByContactID(9);
     //    //GetContactInfosByContactID(9);
