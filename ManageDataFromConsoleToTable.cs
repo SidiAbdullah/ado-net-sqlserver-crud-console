@@ -29,7 +29,7 @@ class ADO_ManageDataFromConsoleToDB
         {
             try
             {
-                SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
+                SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
                 connection.Open();
                 string query = @"insert into contacts (FirstName, LastName, Email, Phone, Address, CountryID) values 
                                 (@FirstName, @LastName, @Email, @Phone, @Address, @CountryID)";
@@ -49,7 +49,7 @@ class ADO_ManageDataFromConsoleToDB
         {
             try
             {
-                SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
+                SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
                 connection.Open();
                 string query = @"insert into contacts (FirstName, LastName, Email, Phone, Address, CountryID) values 
                                 (@FirstName, @LastName, @Email, @Phone, @Address, @CountryID);
@@ -71,7 +71,7 @@ class ADO_ManageDataFromConsoleToDB
     {
         try
         {
-            SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
+            SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
             connection.Open();
             string query = @"update contacts set FirstName = @FirstName, LastName = @LastName
                             , Email = @Email, Phone = @Phone, Address = @Address, CountryID = @CountryID
@@ -92,7 +92,7 @@ class ADO_ManageDataFromConsoleToDB
     {
         try
         {
-            SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
+            SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
             connection.Open();
             string query = @"delete from contacts where ContactID = @ContactID";
             SqlCommand command = new SqlCommand(query, connection);
@@ -111,7 +111,7 @@ class ADO_ManageDataFromConsoleToDB
     {
         try
         {
-            SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
+            SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
             connection.Open();
             string query = @"delete from contacts where ContactID in (" + IDs + ")";
             SqlCommand command = new SqlCommand(query, connection);
@@ -126,9 +126,9 @@ class ADO_ManageDataFromConsoleToDB
         }
     }
     //solution 1
-    static void testFindContact(int contactID)
+    static void testFindContact(int contactID, stContact newContact)
     {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
         try
         {
@@ -152,7 +152,7 @@ class ADO_ManageDataFromConsoleToDB
     //solution 2
     static void testFindContact2(int contactID)
     {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
         try
         {
