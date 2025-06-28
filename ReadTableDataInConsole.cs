@@ -6,7 +6,7 @@ class ADO_ManageDataFromDB_ToConsole
 {
     static void PrintAllContacts()
     {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = AnyPass");
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
         SqlCommand command = new SqlCommand("select * from contacts", connection);
 
@@ -151,7 +151,7 @@ class ADO_ManageDataFromDB_ToConsole
             Console.WriteLine("Error : " + e.Message);
         }
     }
-    static void GetFirstNameByContactID(int ContactID)
+    static void GetFirstNameByID(int ContactID)
     {
         SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
@@ -173,7 +173,7 @@ class ADO_ManageDataFromDB_ToConsole
         }
         connection.Close();
     }
-    static void GetContactInfosByContactID(int ContactID)
+    static void GetContactBytID(int ContactID)
     {
         SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
         connection.Open();
@@ -210,14 +210,38 @@ class ADO_ManageDataFromDB_ToConsole
             Console.WriteLine("Error : " + e.Message);
         }
     }
-
-    //static void Main()
-    //{
-    //    //PrintAllContacts();
-    //    //PrintAllContactsWithFirstName("name");
-    //    //PrintAllContactsWithFirstNameAndCountry("name", 4);
-    //    //PrintAllContactsStartsWith("%i");
-    //    //GetFirstNameByContactID(9);
-    //    //GetContactInfosByContactID(9);
-    //}
+    static void testFindContact(int contactID)
+    {
+        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
+        connection.Open();
+        try
+        {
+            SqlCommand command = new SqlCommand("select * from contacts", connection);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                if (reader["ContactID"] != DBNull.Value && contactID == (int)reader["ContactID"])
+                {
+                    GetContactBytID(contactID);
+                    return;
+                }
+            }
+            Console.WriteLine("Contact [" + contactID.ToString() + "] is not found");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error : " + e.Message);
+        }
+        connection.Close();
+    }
+    static void Main()
+    {
+        //PrintAllContacts();
+        //PrintAllContactsWithFirstName("name");
+        //PrintAllContactsWithFirstNameAndCountry("name", 4);
+        //PrintAllContactsStartsWith("%i");
+        //GetFirstNameByID(9);
+        //GetContactBytID(9);
+        testFindContact(1);
+    }
 }
