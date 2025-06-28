@@ -125,53 +125,6 @@ class ADO_ManageDataFromConsoleToDB
             Console.WriteLine("Error is: " + e.Message);
         }
     }
-    //solution 1
-    static void testFindContact(int contactID, stContact newContact)
-    {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
-        connection.Open();
-        try
-        {
-            SqlCommand command = new SqlCommand("select * from contacts", connection);
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                if (reader["ContactID"] != DBNull.Value && contactID == (int)reader["ContactID"])
-                {
-                    Console.WriteLine("Contact [" + contactID.ToString() + "] is found");
-                    return;
-                }
-            }
-            Console.WriteLine("Contact [" + contactID.ToString() + "] is not found");
-        } catch(Exception e)
-        {
-            Console.WriteLine("Error : " + e.Message);
-        }
-        connection.Close();
-    }
-    //solution 2
-    static void testFindContact2(int contactID)
-    {
-        SqlConnection connection = new SqlConnection("Server = .; DataBase = ContactsDB; User = sa; Password = 123456");
-        connection.Open();
-        try
-        {
-            SqlCommand command = new SqlCommand("select * from contacts where contactID = @contactID", connection);
-            command.Parameters.AddWithValue("@contactID", contactID);
-            object result = command.ExecuteScalar();
-            if (result != null && contactID == (int)result)
-            {
-                Console.WriteLine("Contact [" + contactID.ToString() + "] is found");
-                return;
-            }
-            Console.WriteLine("Contact [" + contactID.ToString() + "] is not found");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error : " + e.Message);
-        }
-        connection.Close();
-    }
     static void Main()
     {
         stContact newContact = new stContact
